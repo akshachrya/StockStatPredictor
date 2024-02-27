@@ -1,0 +1,140 @@
+{%extends "layout.html"%}
+{%block viz%}
+     <div class="row">
+
+
+                      <div class="col-lg-8 d-flex flex-column">
+                        <div class="row flex-grow">
+                          <div class="col-12 col-lg-4 col-lg-12 grid-margin stretch-card">
+                            <div class="card card-rounded">
+                              <div class="card-body">
+                              	<div id="StockOverallcontainer"></div>
+                               
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                  
+                      <div class="col-lg-4 d-flex flex-column">
+                       <div class="row flex-grow">
+                          <div class="col-12 grid-margin stretch-card">
+                            <div class="card card-rounded">
+                              <div class="card-body">
+                                <div class="row">
+                                  <div class="col-lg-12">
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                      <div>
+                                        <h4 class="card-title card-title-dash">Summary</h4>
+                                      </div>
+                                    </div>
+                                    <div class="mt-3">
+                                      <div class="wrapper d-flex align-items-center justify-content-between py-2 border-bottom">
+                                        <div class="d-flex">
+                                          <div class="wrapper ms-3">
+                                            <p class="ms-1 mb-1 fw-bold">52 Week High</p>
+                                          </div>
+                                        </div>
+                                        <div class="text-muted text-small">
+                                          {{today_stock['fiftyTwoWeekHigh']}}
+                                        </div>
+                                      </div>
+                                      <div class="wrapper d-flex align-items-center justify-content-between py-2 border-bottom">
+                                        <div class="d-flex">
+                                          <div class="wrapper ms-3">
+                                            <p class="ms-1 mb-1 fw-bold">52 Week Low</p>
+                                          </div>
+                                        </div>
+                                        <div class="text-muted text-small">
+                                          {{today_stock['fiftyTwoWeekLow']}}
+                                        </div>
+                                      </div>
+                                      <div class="wrapper d-flex align-items-center justify-content-between py-2 border-bottom">
+                                        <div class="d-flex">
+                                          <div class="wrapper ms-3">
+                                            <p class="ms-1 mb-1 fw-bold">Mkt cap</p>
+                                          </div>
+                                        </div>
+                                        <div class="text-muted text-small">
+                                          {{today_stock['marketCap']}}
+                                        </div>
+                                      </div>
+                                      <div class="wrapper d-flex align-items-center justify-content-between py-2 border-bottom">
+                                        <div class="d-flex">
+                                          <div class="wrapper ms-3">
+                                            <p class="ms-1 mb-1 fw-bold">P/E ratio</p>
+                                          </div>
+                                        </div>
+                                        <div class="text-muted text-small">
+                                          {{today_stock['forwardPE']}}
+                                        </div>
+                                      </div>
+                                         <div class="wrapper d-flex align-items-center justify-content-between py-2 border-bottom">
+                                        <div class="d-flex">
+                                          <div class="wrapper ms-3">
+                                            <p class="ms-1 mb-1 fw-bold">Div Yield</p>
+                                          </div>
+                                        </div>
+                                        <div class="text-muted text-small">
+                                          {{today_stock['dividendYield']}}
+                                        </div>
+                                      </div>
+                                    
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    </div>
+
+  <script src="https://code.highcharts.com/stock/highstock.js"></script>
+  <script src="https://code.highcharts.com/stock/modules/exporting.js"></script>
+  <script src="https://code.highcharts.com/stock/modules/export-data.js"></script>
+  <script src="https://code.highcharts.com/stock/modules/accessibility.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script type="text/javascript">
+    var ticker = "{{ company_dict['Ticker'] }}";
+      console.log("Ticker:", ticker);
+     $(document).ready(function(){
+            $.ajax({
+                url: '/fetchstock',
+                data: {
+                  ticker: ticker
+                 },
+                success: function(data) {
+                  var mainArray=data['data'];
+                  for (var i = 0; i < mainArray.length; i++) {
+                    var innerArray = mainArray[i]; // Get the current inner array
+                    innerArray[0]=new Date(innerArray[0]).getTime();;
+                }
+
+                  Highcharts.stockChart('StockOverallcontainer', {
+                      rangeSelector: {
+                          selected: 1
+                      },
+
+                      title: {
+                          text: data['ticker']+ ' Stock Price'
+                      },
+
+                      series: [{
+                          name: data['ticker'],
+                          data: mainArray,
+                          tooltip: {
+                              valueDecimals: 2
+                          }
+                      }]
+                  });
+                }
+            });
+        });
+  
+
+
+
+</script>
+
+{%endblock%}

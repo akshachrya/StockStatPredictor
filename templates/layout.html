@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Stock Dashboard</title>
+  <!-- plugins:css -->
+  <link rel="stylesheet" href="static/vendors/feather/feather.css">
+  <link rel="stylesheet" href="static/dashboard/vendors/mdi/css/materialdesignicons.min.css">
+  <link rel="stylesheet" href="static/dashboard/vendors/ti-icons/css/themify-icons.css">
+  <link rel="stylesheet" href="static/dashboard/vendors/typicons/typicons.css">
+  <link rel="stylesheet" href="static/dashboard/vendors/simple-line-icons/css/simple-line-icons.css">
+  <link rel="stylesheet" href="static/dashboard/vendors/css/vendor.bundle.base.css">
+  <link rel="stylesheet" href="static/dashboard/vendors/feather/feather.css">
+  <!-- endinject -->
+  <!-- Plugin css for this page -->
+  <link rel="stylesheet" href="static/dashboard/vendors/datatables.net-bs4/dataTables.bootstrap4.css">
+  <link rel="stylesheet" href="static/dashboard/js/select.dataTables.min.css">
+  <!-- End plugin css for this page -->
+  <!-- inject:css -->
+  <link rel="stylesheet" href="static/dashboard/css/vertical-layout-light/style.css">
+  <!-- endinject -->
+  <link rel="shortcut icon" href="static/dashboard/images/favicon.png" />
+</head>
+<body>
+  <div class="container-scroller"> 
+    <!-- partial:partials/_navbar.html -->
+    <nav class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex align-items-top flex-row">
+      <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-start">
+        <div class="me-3">
+          <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-bs-toggle="minimize">
+            <span class="icon-menu"></span>
+          </button>
+        </div>
+        <div>
+          <a class="navbar-brand brand-logo" href="/home">
+            <img src="static/logo.jpg" alt="logo" />
+          </a>
+          <a class="navbar-brand brand-logo-mini" href="index.html">
+            <img src="static/logo.jpg" alt="logo" />
+          </a>
+        </div>
+      </div>
+      <div class="navbar-menu-wrapper d-flex align-items-top"> 
+        <ul class="navbar-nav">
+          <li class="nav-item font-weight-semibold d-none d-lg-block ms-0">
+
+            <h1 class="welcome-text"><span class="text-black fw-bold">{{company_dict['Name']}}</span></h1>
+            <h3 class="welcome-sub-text"><button type="button" class="btn btn-secondary btn-rounded btn-fw">{{company_dict['Ticker']}}</button><button type="button" class="btn btn-secondary btn-rounded btn-fw">Stock Exchange:{{company_dict['Exchange']}}</button> &nbsp;&nbsp;<button type="button" class="btn btn-secondary btn-rounded btn-fw">Category: {{company_dict['Category Name']}}</button> &nbsp;&nbsp;<button type="button" class="btn btn-secondary btn-rounded btn-fw">Country: {{company_dict['Country']}}</button> &nbsp;&nbsp;  &nbsp;&nbsp;</h3>
+          </li>
+        </ul>
+        <ul class="navbar-nav ms-auto">
+        <li class="nav-item dropdown d-none d-lg-block">
+            <a class="nav-link dropdown-bordered dropdown-toggle dropdown-toggle-split" id="messageDropdown" href="#" data-bs-toggle="dropdown" aria-expanded="false"> Select Stock </a>
+            <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list pb-0" aria-labelledby="messageDropdown" style="max-height: 500px; overflow-y: auto;">
+                <a class="dropdown-item py-3">
+                    <input type="text" id="stockSearch" placeholder="Search stocks">
+                </a>
+                <div class="dropdown-divider"></div>
+                {% for result in COMPANY %}
+                <a class="dropdown-item preview-item" href="/{{result['Ticker']}}">
+                    <div class="preview-item-content flex-grow py-2">
+                        <p class="preview-subject ellipsis font-weight-medium text-dark">{{result['Ticker']}}</p>
+                        <p class="fw-light small-text mb-0">{{result['Name']}}</p>
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+        </li>
+
+         
+          <li class="nav-item dropdown d-none d-lg-block user-dropdown">
+            <a class="nav-link" id="UserDropdown" href="#" data-bs-toggle="dropdown" aria-expanded="false">
+              <img class="img-xs rounded-circle" src="static/dashboard/images/faces/face8.jpg" alt="Profile image"> </a>
+            <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
+              <div class="dropdown-header text-center">
+                <img class="img-md rounded-circle" src="static/dashboard/images/faces/face8.jpg" alt="Profile image">
+                <p class="mb-1 mt-3 font-weight-semibold">Akash Acharya</p>
+                <p class="fw-light text-muted mb-0">akshachrya@gmail.com</p>
+              </div>
+              <a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-account-outline text-primary me-2"></i> My Profile <span class="badge badge-pill badge-danger">1</span></a>
+              <a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-power text-primary me-2"></i>Sign Out</a>
+            </div>
+          </li>
+        </ul>
+        <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-bs-toggle="offcanvas">
+          <span class="mdi mdi-menu"></span>
+        </button>
+      </div>
+    </nav>
+    <!-- partial -->
+    <div class="container-fluid page-body-wrapper">
+
+      <!-- partial:partials/_sidebar.html -->
+      <nav class="sidebar sidebar-offcanvas" id="sidebar">
+        <ul class="nav">
+          <li class="nav-item">
+            <a class="nav-link" href="/predict?symbol={{company_dict['Ticker']}}">
+              <i class="mdi mdi-grid-large menu-icon"></i>
+              <span class="menu-title">Predictor</span>
+            </a>
+          </li>
+            <li class="nav-item">
+            <a class="nav-link" href="/stat?symbol={{company_dict['Ticker']}}">
+              <i class="mdi mdi-grid-large menu-icon"></i>
+              <span class="menu-title">Statistics</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+      <!-- partial -->
+      <div class="main-panel">
+        <div class="content-wrapper">
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="home-tab">
+                <div class="d-sm-flex align-items-center justify-content-between border-bottom">
+                  <div>
+                    
+                  </div>
+                </div>
+                <div class="tab-content tab-content-basic">
+                  <div class="tab-pane fade show active" id="overview" role="tabpanel" aria-labelledby="overview"> 
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <button type="button" class="btn btn-secondary btn-rounded btn-fw">Today's Date: {{today_stock['Date']}}</button>
+                        <div class="statistics-details d-flex align-items-center justify-content-between">
+
+                          <div>
+                            <p class="statistics-title">Open</p>
+                            <h3 class="rate-percentage">{{today_stock['Open']}}</h3>
+                            {%if today_stock['openratio']>0:%}
+                              <p class="text-success d-flex"><i class="mdi mdi-menu-up"></i><span>{{today_stock['openratio']}} ({{today_stock['openratioper']}}%)</span></p>
+                            {%endif%}
+                            {%if today_stock['openratio']==0:%}
+                              <p class="text-warning d-flex"><i class="mdi mdi-menu"></i><span>{{today_stock['openratio']}} ({{today_stock['openratioper']}}%)</span></p>
+                            {%endif%}
+                             {%if today_stock['openratio']<0:%}
+                              <p class="text-danger d-flex"><i class="mdi mdi-menu-down"></i><span>{{today_stock['openratio']}} ({{today_stock['openratioper']}}%)</span></p>
+                             {%endif%}
+                          </div>
+                          <div>
+                            <p class="statistics-title">High</p>
+                            <h3 class="rate-percentage">{{today_stock['High']}}</h3>
+                           {%if today_stock['highratio']>0:%}
+                              <p class="text-success d-flex"><i class="mdi mdi-menu-up"></i><span>{{today_stock['highratio']}} ({{today_stock['highratioper']}}%)</span></p>
+                            {%endif%}
+                             {%if today_stock['highratio']==0:%}
+                              <p class="text-warning d-flex"><i class="mdi mdi-menu"></i><span>{{today_stock['highratio']}} ({{today_stock['highratioper']}}%)</span></p>
+                            {%endif%}
+                             {%if today_stock['highratio']<0:%}
+                              <p class="text-danger d-flex"><i class="mdi mdi-menu-down"></i><span>{{today_stock['highratio']}} ({{today_stock['highratioper']}}%)</span></p>
+                             {%endif%}
+                          </div>
+                          <div class="d-none d-md-block">
+                            <p class="statistics-title">Low</p>
+                            <h3 class="rate-percentage">{{today_stock['Low']}}</h3>
+                            {%if today_stock['lowratio']>=0:%}
+                              <p class="text-success d-flex"><i class="mdi mdi-menu-up"></i><span>{{today_stock['lowratio']}} ({{today_stock['lowratioper']}}%)</span></p>
+                            {%endif%}
+                             {%if today_stock['lowratio']==0:%}
+                              <p class="text-warning d-flex"><i class="mdi mdi-menu"></i><span>{{today_stock['lowratio']}} ({{today_stock['lowratioper']}}%)</span></p>
+                            {%endif%}
+                             {%if today_stock['lowratio']<0:%}
+                              <p class="text-danger d-flex"><i class="mdi mdi-menu-down"></i><span>{{today_stock['lowratio']}} ({{today_stock['lowratioper']}}%)</span></p>
+                             {%endif%}
+                          </div>
+                          <div class="d-none d-md-block">
+                            <p class="statistics-title">Close</p>
+                            <h3 class="rate-percentage">{{today_stock['Close']}}</h3>
+                            {%if today_stock['closeratio']>=0:%}
+                              <p class="text-success d-flex"><i class="mdi mdi-menu-up"></i><span>{{today_stock['closeratio']}} ({{today_stock['closeratioper']}}%)</span></p>
+                            {%endif%}
+                             {%if today_stock['closeratio']==0:%}
+                              <p class="text-warning d-flex"><i class="mdi mdi-menu"></i><span>{{today_stock['closeratio']}} ({{today_stock['closeratioper']}}%)</span></p>
+                            {%endif%}
+                             {%if today_stock['closeratio']<0:%}
+                              <p class="text-danger d-flex"><i class="mdi mdi-menu-down"></i><span>{{today_stock['closeratio']}} ({{today_stock['closeratioper']}}%)</span></p>
+                             {%endif%}
+                          </div>
+                          <div class="d-none d-md-block">
+                            <p class="statistics-title">Adj Close</p>
+                            <h3 class="rate-percentage">{{today_stock['Adj Close']}}</h3>
+                            {%if today_stock['adjcloseratio']>=0:%}
+                              <p class="text-success d-flex"><i class="mdi mdi-menu-up"></i><span>{{today_stock['adjcloseratio']}} ({{today_stock['adjcloseratioper']}}%)</span></p>
+                            {%endif%}
+                             {%if today_stock['adjcloseratio']==0:%}
+                              <p class="text-warning d-flex"><i class="mdi mdi-menu"></i><span>{{today_stock['adjcloseratio']}} ({{today_stock['adjcloseratioper']}}%)</span></p>
+                            {%endif%}
+                             {%if today_stock['adjcloseratio']<0:%}
+                              <p class="text-danger d-flex"><i class="mdi mdi-menu-down"></i><span>{{today_stock['adjcloseratio']}} ({{today_stock['adjcloseratioper']}}%)</span></p>
+                             {%endif%}
+                          </div>
+                          <div class="d-none d-md-block">
+                            <p class="statistics-title">Volume</p>
+                            <h4 class="rate-percentage">{{today_stock['Volume']}}</h4>
+                            {%if today_stock['volumeratio']>=0:%}
+                              <p class="text-success d-flex"><i class="mdi mdi-menu-up"></i><span>{{today_stock['volumeratio']}} ({{today_stock['volumeratioper']}}%)</span></p>
+                            {%endif%}
+                             {%if today_stock['volumeratio']==0:%}
+                              <p class="text-warning d-flex"><i class="mdi mdi-menu"></i><span>{{today_stock['volumeratio']}} ({{today_stock['volumeratioper']}}%)</span></p>
+                            {%endif%}
+                             {%if today_stock['volumeratio']<0:%}
+                              <p class="text-danger d-flex"><i class="mdi mdi-menu-down"></i><span>{{today_stock['volumeratio']}} ({{today_stock['volumeratioper']}}%)</span></p>
+                             {%endif%}
+                          </div>
+                        </div>
+                      </div>
+                    </div> 
+               
+             {%block viz%}{%endblock%}
+               {%block predict%}{%endblock%}
+               {%block stat%}{%endblock%}
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- content-wrapper ends -->
+        <!-- partial:partials/_footer.html -->
+        <footer class="footer">
+          <div class="d-sm-flex justify-content-center justify-content-sm-between">
+            <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">AKSH ACHRYA DEVELOPMENT</span>
+            <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Copyright © 2024 All rights reserved.</span>
+          </div>
+        </footer>
+        <!-- partial -->
+      </div>
+      <!-- main-panel ends -->
+    </div>
+    <!-- page-body-wrapper ends -->
+  </div>
+  <!-- container-scroller -->
+
+  <!-- plugins:js -->
+  <script src="static/dashboard/vendors/js/vendor.bundle.base.js"></script>
+  <!-- endinject -->
+  <!-- Plugin js for this page -->
+  <script src="static/dashboard/vendors/chart.js/Chart.min.js"></script>
+  <script src="static/dashboard/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+  <script src="static/dashboard/vendors/progressbar.js/progressbar.min.js"></script>
+
+  <!-- End plugin js for this page -->
+  <!-- inject:js -->
+  <script src="static/dashboard/js/off-canvas.js"></script>
+  <script src="static/dashboard/js/hoverable-collapse.js"></script>
+  <script src="static/dashboard/js/template.js"></script>
+  <script src="static/dashboard/js/settings.js"></script>
+  <script src="static/dashboard/js/todolist.js"></script>
+  <!-- endinject -->
+  <!-- Custom js for this page-->
+  <script src="static/dashboard/js/dashboard.js"></script>
+  <script src="static/dashboard/js/Chart.roundedBarCharts.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <!-- End custom js for this page-->
+  <!-- Highcharts and Highstocks for this page-->
+  
+<script type="text/javascript">
+ $(document).ready(function () {
+        $('#stockSearch').on('keyup', function () {
+            var searchText = $(this).val().toLowerCase();
+            var found = false;
+           
+        });
+    });
+
+</script>
+
+</body>
+
+</html>
+

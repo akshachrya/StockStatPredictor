@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STOCK PREDICTOR</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- Bootstrap JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!-- Custom CSS -->
+    <style>
+        /* Custom CSS for full-width image */
+        body, html {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        .bg-image {
+            background-image: url('/static/front.jpg'); /* Specify your image URL here */
+            background-size: cover;
+            background-position: center;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        /* Centering the search button */
+        .search-container {
+            width: 400px; /* Set your desired width */
+        }
+        .dropdown-toggle {
+            width: 100%; /* Set the width of the button to 100% */
+        }
+        .dropdown-menu {
+            max-height: 300px; /* Adjust as needed */
+            overflow-y: auto;
+        }
+        .btn{
+                font-size: 60px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="bg-image">
+    <!-- Container for the search button -->
+    <div class="container">
+        <div class="dropdown search-container">
+            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                Select Stock
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                <li><input type="text" placeholder="Search..." id="searchInput" class="form-control"></li>
+                <li role="separator" class="divider"></li>
+                {% for result in COMPANY %}
+
+                    <li><a href="/{{result['Ticker']}}">{{result['Ticker']}} : {{result['Name']}}</a></li>
+                {%endfor%}
+                
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS (optional, only needed if you want to use Bootstrap JS features) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+<script>
+    $(document).ready(function(){
+        // Search functionality
+        $("#searchInput").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $(".dropdown-menu li").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+</script>
+
+</body>
+</html>

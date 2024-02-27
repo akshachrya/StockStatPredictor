@@ -1,0 +1,569 @@
+{%extends "layout.html"%}
+{%block predict%}
+
+     <div class="row">
+
+
+
+                      <div class="col-lg-8 d-flex flex-column">
+                        <div class="row flex-grow">
+                          <div class="col-12 col-lg-4 col-lg-12 grid-margin stretch-card">
+                            <div class="card card-rounded">
+
+                              <div class="card-body">
+                                <div id="bestchoicesvm" style="display: none;"><img src="/static/bestchoice.jpg" height="50" width="50"></div>
+                                <div id="loadersvm"><img src="/static/loader.gif"></div>
+                                   <div id="containersvm"></div>
+                       
+                               
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                  
+                      <div class="col-lg-4 d-flex flex-column">
+                       <div class="row flex-grow">
+                          <div class="col-12 grid-margin stretch-card">
+                            <div class="card card-rounded">
+                              <div class="card-body">
+                                <div class="row">
+                                  <div class="col-lg-12">
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                      <div>
+                                        <h4 class="card-title card-title-dash">Model Summary</h4>
+                                      </div>
+                                    </div>
+                                    <div class="mt-3">
+                                      <div class="wrapper d-flex align-items-center justify-content-between py-2 border-bottom">
+                                        <div class="d-flex">
+                                          <div class="wrapper ms-3">
+                                            <p class="ms-1 mb-1 fw-bold">R2</p>
+                                          </div>
+                                        </div>
+                                        <div class="text-muted text-small">
+                                          <div id="r_score_svm"></div>
+                                        </div>
+                                      </div>
+                                      <div class="wrapper d-flex align-items-center justify-content-between py-2 border-bottom">
+                                        <div class="d-flex">
+                                          <div class="wrapper ms-3">
+                                            <p class="ms-1 mb-1 fw-bold">RMSE</p>
+                                          </div>
+                                        </div>
+                                        <div class="text-muted text-small">
+                                          <div id="rmse_score_svm"></div>
+                                        </div>
+                                      </div>
+                                      <div class="wrapper d-flex align-items-center justify-content-between py-2 border-bottom">
+                                        <div class="d-flex">
+                                          <div class="wrapper ms-3">
+                                            <p class="ms-1 mb-1 fw-bold">Prediction for next 15 Days:</p>
+                                          </div>
+                                        </div>
+                                        <div class="text-muted text-small">
+                                         
+                                        </div>
+                                      </div>
+                                        <div class="wrapper d-flex align-items-center justify-content-between py-2 border-bottom">
+                                        <div class="d-flex">
+                                          <div class="wrapper ms-3">
+                                            <div class="text-muted text-small"><div id="price_prediction_svm"></div></div>
+                                          </div>
+                                        </div>
+                                        
+                                        </div>
+                                      </div>
+                                   
+                                      
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+
+                      <div class="col-lg-8 d-flex flex-column">
+                        <div class="row flex-grow">
+                          <div class="col-12 col-lg-4 col-lg-12 grid-margin stretch-card">
+                            <div class="card card-rounded">
+                              <div class="card-body">
+                                <div id="bestchoicearima" style="display: none;"><img src="/static/bestchoice.jpg" height="50" width="50"></div>
+
+                                <div id="loaderarima"><img src="/static/loader.gif"></div>
+                                   <div id="containerarima"></div>
+
+                             
+                               
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                  
+                      <div class="col-lg-4 d-flex flex-column">
+                       <div class="row flex-grow">
+                          <div class="col-12 grid-margin stretch-card">
+                            <div class="card card-rounded">
+                              <div class="card-body">
+                                <div class="row">
+                                  <div class="col-lg-12">
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                      <div>
+                                        <h4 class="card-title card-title-dash">Model Summary</h4>
+                                      </div>
+                                    </div>
+                                    <div class="mt-3">
+                                      <div class="wrapper d-flex align-items-center justify-content-between py-2 border-bottom">
+                                        <div class="d-flex">
+                                          <div class="wrapper ms-3">
+                                            <p class="ms-1 mb-1 fw-bold">R2</p>
+                                          </div>
+                                        </div>
+                                        <div class="text-muted text-small">
+                                          <div id="r_score"></div>
+                                        </div>
+                                      </div>
+                                      <div class="wrapper d-flex align-items-center justify-content-between py-2 border-bottom">
+                                        <div class="d-flex">
+                                          <div class="wrapper ms-3">
+                                            <p class="ms-1 mb-1 fw-bold">RMSE</p>
+                                          </div>
+                                        </div>
+                                        <div class="text-muted text-small">
+                                          <div id="rmse_score"></div>
+                                        </div>
+                                      </div>
+                                      <div class="wrapper d-flex align-items-center justify-content-between py-2 border-bottom">
+                                        <div class="d-flex">
+                                          <div class="wrapper ms-3">
+                                            <p class="ms-1 mb-1 fw-bold">Prediction for next 15 Days:</p>
+                                          </div>
+                                        </div>
+                                        <div class="text-muted text-small">
+                                         
+                                        </div>
+                                      </div>
+                                        <div class="wrapper d-flex align-items-center justify-content-between py-2 border-bottom">
+                                        <div class="d-flex">
+                                          <div class="wrapper ms-3">
+                                            <div class="text-muted text-small"><div id="price_prediction"></div></div>
+                                          </div>
+                                        </div>
+                                        
+                                        </div>
+                                      </div>
+                                   
+                                      
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+
+                      <div class="col-lg-8 d-flex flex-column">
+                        <div class="row flex-grow">
+                          <div class="col-12 col-lg-4 col-lg-12 grid-margin stretch-card">
+                            <div class="card card-rounded">
+                              <div class="card-body">
+                                <div id="bestchoiceregression" style="display: none;"><img src="/static/bestchoice.jpg" height="50" width="50"></div>
+                                <div id="loaderegression"><img src="/static/loader.gif"></div>
+                                   <div id="containerregression"></div>
+                              
+                               
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+
+                      <div class="col-lg-4 d-flex flex-column">
+                       <div class="row flex-grow">
+                          <div class="col-12 grid-margin stretch-card">
+                            <div class="card card-rounded">
+                              <div class="card-body">
+                                <div class="row">
+                                  <div class="col-lg-12">
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                      <div>
+                                        <h4 class="card-title card-title-dash">Model Summary</h4>
+                                      </div>
+                                    </div>
+                                    <div class="mt-3">
+                                      <div class="wrapper d-flex align-items-center justify-content-between py-2 border-bottom">
+                                        <div class="d-flex">
+                                          <div class="wrapper ms-3">
+                                            <p class="ms-1 mb-1 fw-bold">R2</p>
+                                          </div>
+                                        </div>
+                                        <div class="text-muted text-small">
+                                          <div id="r_score_reg"></div>
+                                        </div>
+                                      </div>
+                                      <div class="wrapper d-flex align-items-center justify-content-between py-2 border-bottom">
+                                        <div class="d-flex">
+                                          <div class="wrapper ms-3">
+                                            <p class="ms-1 mb-1 fw-bold">RMSE</p>
+                                          </div>
+                                        </div>
+                                        <div class="text-muted text-small">
+                                          <div id="rmse_score_reg"></div>
+                                        </div>
+                                      </div>
+                                      <div class="wrapper d-flex align-items-center justify-content-between py-2 border-bottom">
+                                        <div class="d-flex">
+                                          <div class="wrapper ms-3">
+                                            <p class="ms-1 mb-1 fw-bold">Prediction for next 15 Days:</p>
+                                          </div>
+                                        </div>
+                                        <div class="text-muted text-small">
+                                         
+                                        </div>
+                                      </div>
+                                        <div class="wrapper d-flex align-items-center justify-content-between py-2 border-bottom">
+                                        <div class="d-flex">
+                                          <div class="wrapper ms-3">
+                                            <div class="text-muted text-small"><div id="price_prediction_reg"></div></div>
+                                          </div>
+                                        </div>
+                                        
+                                        </div>
+                                      </div>
+                                   
+                                      
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+
+
+
+
+                    </div>
+
+      </div>
+
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+      <script type="text/javascript">
+
+
+
+        var ticker = "{{ company_dict['Ticker'] }}";
+      
+            $.ajax({
+                url: '/arimamodel',
+                data: {
+                  ticker: ticker
+                 },
+                success: function(data) {
+                  var mainArray=data['data'];
+                  $('#loaderarima').hide();
+                  $("#r_score").html(mainArray['r2_error_arima']);
+                  if (mainArray['r2_error_arima'] >= 0.9) {
+                    $('#bestchoicearima').show();
+                  } 
+                $("#rmse_score").html(mainArray['error_arima']);
+                let myList = [];
+               var arima_pred=mainArray['arima_pred'];
+                 for (var i = 0; i < arima_pred.length; i++) {
+                    var innerArray = arima_pred[i]; // Get the current inner array
+                    myList.push(innerArray[1]);
+                    innerArray[0]=new Date(innerArray[0]).getTime();;
+                }
+
+               var original_highcharts=mainArray['original_highcharts'];
+                for (var i = 0; i < original_highcharts.length; i++) {
+                    var innerArray = original_highcharts[i]; // Get the current inner array
+                    innerArray[0]=new Date(innerArray[0]).getTime();;
+                }
+
+               var sorted_test=mainArray['test'];
+    
+                for (var i = 0; i < sorted_test.length; i++) {
+                    var innerArray = sorted_test[i]; // Get the current inner array
+                    innerArray[0]=new Date(innerArray[0]).getTime();;
+                }
+                var commaSeparatedString = myList.join(', ');
+
+                if (mainArray['percentage_change'] > 0) {
+                    $("#price_prediction").html(commaSeparatedString+"  <br> <br> <span style='color: #4BB543;'>("+mainArray['percentage_change']+"%)</span>");
+                  } 
+
+                    if (mainArray['percentage_change'] <= 0) {
+                    $("#price_prediction").html(commaSeparatedString+"  <br> <br> <span style='color: red;'>("+mainArray['percentage_change']+"%)</span>");
+                  } 
+                 Highcharts.chart('containerarima', {
+                        chart: {
+                            zoomType: 'x'
+                        },
+                        title: {
+                            text: 'ARIMA',
+                            align: 'center'
+                        },
+                        xAxis: {
+                            type: 'datetime'
+                        },
+                        yAxis: {
+                            title: {
+                                text: 'Price'
+                            }
+                        },
+                        legend: {
+                            enabled: true
+                        },
+                        plotOptions: {
+                            area: {
+                                marker: {
+                                    radius: 2
+                                },
+                                lineWidth: 1,
+                                states: {
+                                    hover: {
+                                        lineWidth: 1
+                                    }
+                                },
+                                threshold: null
+                            }
+                        },
+
+                        series: [{
+                            type: 'area',
+                            name: 'Original',
+                            data: original_highcharts,
+                            color:'skyblue'
+                        },
+                        {
+                            type: 'area',
+                            name: 'ARIMA Model Test',
+                            data: sorted_test,
+                            color:'yellow'
+                        },
+                        {
+                            type: 'area',
+                            name: 'Forecast',
+                            data: arima_pred,
+                            color:'red'
+                        }]
+                    });
+                }
+            });
+      
+
+
+       $.ajax({
+                url: '/regmodel',
+                data: {
+                  ticker: ticker
+                 },
+                success: function(data) {
+                  var mainArray=data['data'];
+                  $('#loaderegression').hide();
+                  $("#r_score_reg").html(mainArray['r2_error_reg']);
+                     if (mainArray['r2_error_reg'] >= 0.9) {
+                    $('#bestchoiceregression').show();
+                  } 
+                $("#rmse_score_reg").html(mainArray['error_reg']);
+                let myList = [];
+               var reg_pred=mainArray['reg_pred'];
+                 for (var i = 0; i < reg_pred.length; i++) {
+                    var innerArray = reg_pred[i]; // Get the current inner array
+                    myList.push(innerArray[1]);
+                    innerArray[0]=new Date(innerArray[0]).getTime();;
+                }
+
+               var original_highcharts=mainArray['original_highcharts'];
+                for (var i = 0; i < original_highcharts.length; i++) {
+                    var innerArray = original_highcharts[i]; // Get the current inner array
+                    innerArray[0]=new Date(innerArray[0]).getTime();;
+                }
+
+               var sorted_test=mainArray['test'];
+    
+                for (var i = 0; i < sorted_test.length; i++) {
+                    var innerArray = sorted_test[i]; // Get the current inner array
+                    innerArray[0]=new Date(innerArray[0]).getTime();;
+                }
+                var commaSeparatedStringreg = myList.join(', ');
+
+                if (mainArray['percentage_change'] > 0) {
+                    $("#price_prediction_reg").html(commaSeparatedStringreg+"  <br> <br> <span style='color: #4BB543;'>("+mainArray['percentage_change']+"%)</span>");
+                  } 
+
+                    if (mainArray['percentage_change'] <= 0) {
+                    $("#price_prediction_reg").html(commaSeparatedStringreg+"  <br> <br> <span style='color: red;'>("+mainArray['percentage_change']+"%)</span>");
+                  } 
+
+                
+                 Highcharts.chart('containerregression', {
+                        chart: {
+                            zoomType: 'x'
+                        },
+                        title: {
+                            text: 'Regression',
+                            align: 'center'
+                        },
+                        xAxis: {
+                            type: 'datetime'
+                        },
+                        yAxis: {
+                            title: {
+                                text: 'Price'
+                            }
+                        },
+                        legend: {
+                            enabled: true
+                        },
+                        plotOptions: {
+                            area: {
+                                marker: {
+                                    radius: 0.2
+                                },
+                                lineWidth: 1,
+                                states: {
+                                    hover: {
+                                        lineWidth: 1
+                                    }
+                                },
+                                threshold: null
+                            }
+                        },
+
+                        series: [{
+                            type: 'area',
+                            name: 'Original',
+                            data: original_highcharts,
+                            color:'skyblue'
+                        },
+                        {
+                            type: 'area',
+                            name: 'Reg Model Test',
+                            data: sorted_test,
+                            color:'yellow'
+                        },
+                        {
+                            type: 'area',
+                            name: 'Forecast',
+                            data: reg_pred,
+                            color:'red'
+                        }]
+                    });
+                }
+            });
+      
+
+           $.ajax({
+                url: '/svmmodel',
+                data: {
+                  ticker: ticker
+                 },
+                success: function(data) {
+                  var mainArray=data['data'];
+                  $('#loadersvm').hide();
+                  $("#r_score_svm").html(mainArray['r2_error_svm']);
+                     if (mainArray['r2_error_svm'] >= 0.9) {
+                    $('#bestchoicesvm').show();
+                  } 
+                $("#rmse_score_svm").html(mainArray['error_svm']);
+                let myList = [];
+               var svm_pred=mainArray['svm_pred'];
+                 for (var i = 0; i < svm_pred.length; i++) {
+                    var innerArray = svm_pred[i]; // Get the current inner array
+                    myList.push(innerArray[1]);
+                    innerArray[0]=new Date(innerArray[0]).getTime();;
+                }
+
+               var original_highcharts=mainArray['original_highcharts'];
+                for (var i = 0; i < original_highcharts.length; i++) {
+                    var innerArray = original_highcharts[i]; // Get the current inner array
+                    innerArray[0]=new Date(innerArray[0]).getTime();;
+                }
+
+               var sorted_test=mainArray['test'];
+    
+                for (var i = 0; i < sorted_test.length; i++) {
+                    var innerArray = sorted_test[i]; // Get the current inner array
+                    innerArray[0]=new Date(innerArray[0]).getTime();;
+                }
+                var commaSeparatedStringsvm = myList.join(', ');
+                 if (mainArray['percentage_change'] > 0) {
+                    $("#price_prediction_svm").html(commaSeparatedStringsvm+"  <br> <br> <span style='color: #4BB543;'>("+mainArray['percentage_change']+"%)</span>");
+                  } 
+
+                    if (mainArray['percentage_change'] <= 0) {
+                    $("#price_prediction_svm").html(commaSeparatedStringsvm+"  <br> <br> <span style='color: red;'>("+mainArray['percentage_change']+"%)</span>");
+                  } 
+      
+
+                 Highcharts.chart('containersvm', {
+                        chart: {
+                            zoomType: 'x'
+                        },
+                        title: {
+                            text: 'SVM',
+                            align: 'center'
+                        },
+                        xAxis: {
+                            type: 'datetime'
+                        },
+                        yAxis: {
+                            title: {
+                                text: 'Price'
+                            }
+                        },
+                        legend: {
+                            enabled: true
+                        },
+                        plotOptions: {
+                            area: {
+                                marker: {
+                                    radius: 2
+                                },
+                                lineWidth: 1,
+                                states: {
+                                    hover: {
+                                        lineWidth: 1
+                                    }
+                                },
+                                threshold: null
+                            }
+                        },
+
+                        series: [{
+                            type: 'area',
+                            name: 'Original',
+                            data: original_highcharts,
+                            color:'skyblue'
+                        },
+                        {
+                            type: 'area',
+                            name: 'SVM Model Test',
+                            data: sorted_test,
+                            color:'yellow'
+                        },
+                        {
+                            type: 'area',
+                            name: 'Forecast',
+                            data: svm_pred,
+                            color:'red'
+                        }]
+                    });
+                }
+            });
+
+      </script>
+
+{%endblock%}
